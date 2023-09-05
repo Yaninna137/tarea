@@ -23,7 +23,7 @@ class Playlist:
         self.Estado = 'Reproduciendo'
         return self.listas_contenedor_de_song[self.indice_cancion]
     
-    def Selccionar_una_cancion_a_reproducir(self,indice):
+    def Seleccionar_una_cancion_a_reproducir(self,indice):
         self.indice_cancion = indice                           # Cambiar el valor de la actual reproducion y colocar ah reproducir el nuevo
 
     def Pausar_cancion(self):
@@ -33,12 +33,23 @@ class Playlist:
         self.Estado = 'Reproduccion'
     def Detener_la_reproduccion(self):
         self.Estado = 'Detenido'
+        print('La cancion se encuentra Detenida')
+        m = input('Cancion Detenida (enter para volver a reproduccir cancion) ')
+        self.Estado = 'Reproduccion'
 
-    def Pasar_sig_cancion(self):
-        self.indice_cancion += 1
+    def Pasar_sig_cancion(self,ind_actual):
+        if ind_actual < (len(self.listas_contenedor_de_song)-1):
+            self.indice_cancion += 1
+        else:
+            self.indice_cancion = 0
+
         print('Siguiente...')
-    def Retroceder_cancion_anterior(self):
-        self.indice_cancion -= 1                                # retornar el indice de la anterior cancion
+    def Retroceder_cancion_anterior(self,id_actual):
+        if id_actual < (len(self.listas_contenedor_de_song)-1):
+            self.indice_cancion -= 1
+        else:
+            self.indice_cancion = len(self.listas_contenedor_de_song)-1     
+                                      
         print('Retrocediendo...')
     def Reproducir_una_cancion_aleatoria(self):
         lista = self.listas_contenedor_de_song
@@ -52,9 +63,9 @@ class Playlist:
             i += 1          
     def Ver_estado_Playlist(self):
         return 'Esta playlist esta en {}'.format(self.Estado)      
-    def Ver_cancion_reproduciendo(self,indice_reproducion):
+    def Ver_cancion_reproduciendo(self):
         return f'La cancion que se esta REPRODUCIENDO es: {self.listas_contenedor_de_song[self.indice_cancion]}'
-    #METODO PARA ELIMINAR OBJETO
+    #METODO PARA ELIMINAR OBJ
     def __del__(self):
         print('objeto destruido')
 
@@ -64,28 +75,28 @@ canciones = ['musica pop','musica clasica','musica jazz']
 My_musica = Playlist('XXLL',canciones)
 def menu():
     print('Bienvenido. Para manejar tu Playlist tienes los suiguintes opciones')
-    print('A.Mostrar todas las canciones.')
+    print('A.mostrar todas las canciones.')
     print('B.Eliminar una canción.')
-    print('C.Añadir una canción')
+    print('C.añadir una canción')
 
-    print('1.Reproducir una canción(0)')
-    print('2.Reproducir una canción aleatoria ')
-    print('3.Seleccionar una canción a reproducion(1)')
-    print('4.Pausar una canción')
-    print('5.Detener la reproducción')
-    print('6.Siguiente canción')
-    print('7retroceder a la canción anterior')
-    print('8.estado de la playlist')
-    print('9.Ver la canción que se está reproduciendo')
+    # print('1.Reproducir una canción(0)')
+    print('2.reproducir una canción aleatoria ')
+    # print('1.Seleccionar una canción a reproducion(1)')
+    # print('4.pausar una canción')
+    # print('5.Detener la reproducción')
+    # print('6.siguiente canción')
+    # print('7retroceder a la canción anterior')
+    # print('8.estado de la playlist')
+    # print('9.Ver la canción que se está reproduciendo')
 def menum():
     print("Bienvenido <(II)>")
     print("1.reproducir")
     print(" 'p' para pausar play list")
 def comando_r(objeto):
     objeto.Estado = 'Reproduccion'
-    tiempo_total_c = len(canciones) * 10
+    tiempo_total_c = len(canciones) * 15
     i = j = 0
-    TiempoC = 10
+    TiempoC = 15
     while i < TiempoC and j <tiempo_total_c:
 
         if keyboard.is_pressed('p'):                         # Al precionar la tecla p se pausara la playlist
@@ -96,16 +107,44 @@ def comando_r(objeto):
             print(i)
             i += 1
             j += 1
-        if keyboard.is_pressed('p'):
+        if keyboard.is_pressed('p'):                        #comando para pausar
             objeto.Pausar_cancion()
-        if i == 10:
+
+        if keyboard.is_pressed('S'):                        # comando para seleccionar la cancion ah reproducir
+           ingrese = int(input(f'Ingrese el numero de la cancion(0-{len(objeto.listas_contenedor_de_song)}): '))
+           objeto.Seleccionar_una_cancion_a_reproducir(ingrese)
+           i = 0
+           j = 15*ingrese
+
+        if keyboard.is_pressed('D'):  
+           objeto.Detener_la_reproduccion()                     # comando para detener la reproducir
+           i = 0
+        if keyboard.is_pressed('N'):
+            el_resto_song_actual = j % 15 #objeto.indice_cancion
+            objeto.Pasar_sig_cancion(objeto.indice_cancion)
             i = 0
-            print('musica anterior: {}'.format(objeto.listas_contenedor_de_song[objeto.indice_cancion]))
-            objeto.indice_cancion += 1
+            j += el_resto_song_actual          # le sumamos lo que restaba del tiempo de la cancion anterior , para que la siguinete inicie con el tiempo 0 y que en la lista de tiempode demora total , se tenga el numero mazimo que se tiene.
+        if keyboard.is_pressed('R'):           # comando para retroceder la cancion
+            el_resto_song_actual = j % 15 #objeto.indice_cancion
+            objeto.Retroceder_cancion_anterior(objeto.indice_cancion)
+            i = 0
+            j = (j + el_resto_song_actual)  -15        # se suma lo que llebaba y se resta los 15 , para que de el efeto de retornar , desde el punto de partica pero esta vez en 0
+
+        if keyboard.is_pressed('9'):           # comando para ver el estado de la playlist. #agregar en los demas comando de pausa y detener
+           print( objeto.Ver_estado_Playlist())
+        if keyboard.is_pressed('A') or keyboard.is_pressed('a'):            # comado para ver la cancion actual
+            print(objeto.Ver_cancion_reproduciendo())
+
+        if i == 15:
+            i = 0
+            print('musica anterior: {}'.format(objeto.listas_contenedor_de_song[objeto.indice_cancion]),objeto.indice_cancion)
+            if objeto.indice_cancion < (len(objeto.listas_contenedor_de_song)-1 ):
+                objeto.indice_cancion += 1
             if j == tiempo_total_c:
                 objeto.indice_cancion = 0
+    print(i,'--->', j)
 
-end = False
+end = False 
 while not end:
     menum()
     r = input('Seeccion:')
@@ -116,6 +155,7 @@ while not end:
             r = input('Volver a R:(si)')
             if r == 'no':
                 break
+    
             
                 
     if r == '0':
