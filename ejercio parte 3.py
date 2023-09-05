@@ -180,19 +180,42 @@ def comando_r(objeto):
                 objeto.indice_cancion = 0
     print(i,'--->', j)
 
+def menu_de_reproduccion():
+    print('---------------------------MENU DE COMNADO(TECLAS)--------------------------')
+    print('Reproducccion ALEATORIA(A)|Pausar(P)|Detener(D)|Siguiente(N)|Retroceder(R)|')
+    print("Seleccionar Song(S)|Estado(E) | Veer Song actual(V)\n")
 end = False 
 while not end:
-    menum()
-    r = input('Seeccion:')
-    if r == '1':
+    print('Bienvenido. Para manejar tu Playlist tienes los siguintes opciones')
+    print('a).mostrar todas las canciones.')
+    print('b).Eliminar una canción.')
+    print('c).añadir una canción')
+    print('d).Reproducir Playlist')
+    print('e).Reproducir Playlist Aleatoria')
+    print('f).Salir')
+    r = input('Ingrese una opcion:').lower()
+    if r == 'a':
+        Editar('a')
+    if r == 'b':
+        Editar('b')
+    if r == 'c':
+        Editar('c')
+    if r == 'd':
+        menu_de_reproduccion()
+        while True:
+            comando_r(My_musica)
+            print('Musica reproducida')
+            r = input('Volver a Reproducir:(si)')
+            if r == 'no':
+                break  
+    if r == 'e':
+        menu_de_reproduccion()
+        My_musica.Reproducir_una_cancion_aleatoria()
         while True:
             comando_r(My_musica)
             print('Musica reproducida')
             r = input('Volver a Reproducir:(si)')
             if r == 'no':
                 break
-    
-            
-                
-    if r == '0':
+    if r == 'f':
         break
