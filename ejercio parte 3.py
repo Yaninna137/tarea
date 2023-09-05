@@ -51,7 +51,8 @@ class Playlist:
             self.indice_cancion = len(self.listas_contenedor_de_song)-1     
                                       
         print('Retrocediendo...')
-    def Reproducir_una_cancion_aleatoria(self):
+    def Reproducir_una_cancion_aleatoria(self,index_actual = None):
+        cancion_que_se_estaba_r = self.listas_contenedor_de_song[self.indice_cancion]     
         lista = self.listas_contenedor_de_song
         len_lista = len(self.listas_contenedor_de_song)
         i = 0
@@ -60,7 +61,10 @@ class Playlist:
             aux = lista[i]
             lista[i] = lista[numero_aleatorio]
             lista[numero_aleatorio] = aux
-            i += 1          
+            i += 1
+        if index_actual != None:
+            indice_cancion_que_se_estaba_r = lista.index(cancion_que_se_estaba_r)
+            return indice_cancion_que_se_estaba_r 
     def Ver_estado_Playlist(self):
         return 'Esta playlist esta en {}'.format(self.Estado)      
     def Ver_cancion_reproduciendo(self):
@@ -75,12 +79,12 @@ canciones = ['musica pop','musica clasica','musica jazz']
 My_musica = Playlist('XXLL',canciones)
 def menu():
     print('Bienvenido. Para manejar tu Playlist tienes los suiguintes opciones')
-    print('A.mostrar todas las canciones.')
-    print('B.Eliminar una canción.')
+    # print('A.mostrar todas las canciones.')
+    # print('B.Eliminar una canción.')
     print('C.añadir una canción')
 
     # print('1.Reproducir una canción(0)')
-    print('2.reproducir una canción aleatoria ')
+    # print('2.reproducir una canción aleatoria ')
     # print('1.Seleccionar una canción a reproducion(1)')
     # print('4.pausar una canción')
     # print('5.Detener la reproducción')
@@ -92,26 +96,49 @@ def menum():
     print("Bienvenido <(II)>")
     print("1.reproducir")
     print(" 'p' para pausar play list")
+def Editar(opcion):
+    if opcion == 'a':
+       My_musica.Mostrar_Todas_las_canciones() 
+    if opcion == 'b':
+        index = int(input(f'Ingrese el numero de la cancion a eliminar(0-{len(My_musica.listas_contenedor_de_song)-1}): '))
+        My_musica.Eliminar_cancion(index)
+        print('Canción Eliminada de tu Playlist')
+    if opcion == 'c':
+        nombre = input('Ingrese el nombre de la cancion: ')
+        My_musica.Añadir_cancion(nombre)
+        print('Cancion agregada en tu play list. En top {}'.format(len(My_musica.listas_contenedor_de_song)-1))
 def comando_r(objeto):
     objeto.Estado = 'Reproduccion'
     tiempo_total_c = len(canciones) * 15
     i = j = 0
     TiempoC = 15
     while i < TiempoC and j <tiempo_total_c:
-
+        c_id = Modo_aleatorio = None
         if keyboard.is_pressed('p'):                         # Al precionar la tecla p se pausara la playlist
             objeto.Pausar_cancion()
         if objeto.Estado == 'Reproduccion':
-            objeto.listas_contenedor_de_song[objeto.indice_cancion]
-            time.sleep(1)
-            print(i)
-            i += 1
-            j += 1
+            if Modo_aleatorio == None:
+                objeto.listas_contenedor_de_song[objeto.indice_cancion]
+                time.sleep(1)
+                print(i)
+                i += 1
+                j += 1
+            elif Modo_aleatorio == True:    
+                if c_id != objeto.indice_cancion:
+                    objeto.listas_contenedor_de_song[objeto.indice_cancion]
+                    time.sleep(1)
+                    print(i)
+                    i += 1
+                    j += 1
+                else:
+                    j += TiempoC             # tiempo por cancion , cuando este en aleatoria la musica que se esta en R y se colo el modo Aletorio, este indice no se contara y se suma , para evitar que salga
+                    continue
+
         if keyboard.is_pressed('p'):                        #comando para pausar
             objeto.Pausar_cancion()
 
         if keyboard.is_pressed('S'):                        # comando para seleccionar la cancion ah reproducir
-           ingrese = int(input(f'Ingrese el numero de la cancion(0-{len(objeto.listas_contenedor_de_song)}): '))
+           ingrese = int(input(f'Ingrese el numero de la cancion(0-{len(objeto.listas_contenedor_de_song)-1}): '))
            objeto.Seleccionar_una_cancion_a_reproducir(ingrese)
            i = 0
            j = 15*ingrese
@@ -132,9 +159,18 @@ def comando_r(objeto):
 
         if keyboard.is_pressed('9'):           # comando para ver el estado de la playlist. #agregar en los demas comando de pausa y detener
            print( objeto.Ver_estado_Playlist())
-        if keyboard.is_pressed('A') or keyboard.is_pressed('a'):            # comado para ver la cancion actual
+        if keyboard.is_pressed('V') or keyboard.is_pressed('v'):            # comado para ver la cancion actual
             print(objeto.Ver_cancion_reproduciendo())
-
+        if keyboard.is_pressed('A'):
+            r = input('Estas seguro de colocar la reproduccion aletoria? (si)(no): ')
+            if r ==  'si':
+                i = 0
+                j += j%15           
+                x =objeto.Reproducir_una_cancion_aleatoria(objeto.indice_cancion)
+                c_id = x
+                Modo_aleatorio = True
+            else:
+                continue
         if i == 15:
             i = 0
             print('musica anterior: {}'.format(objeto.listas_contenedor_de_song[objeto.indice_cancion]),objeto.indice_cancion)
@@ -152,7 +188,7 @@ while not end:
         while True:
             comando_r(My_musica)
             print('Musica reproducida')
-            r = input('Volver a R:(si)')
+            r = input('Volver a Reproducir:(si)')
             if r == 'no':
                 break
     
