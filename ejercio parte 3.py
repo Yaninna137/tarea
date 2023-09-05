@@ -73,8 +73,6 @@ class Playlist:
     def __del__(self):
         print('objeto destruido')
 
-# canciones = ['musica pop','musica clasica','musica rok','musica electrica','musica jazz']
-# My_musica = Playlist('XXLL',canciones)
 canciones = ['musica pop','musica clasica','musica jazz']
 My_musica = Playlist('XXLL',canciones)
 def Editar(opcion):
