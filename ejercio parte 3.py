@@ -12,8 +12,8 @@ class Playlist:
     def Añadir_cancion(self,cancion):                       # Un método que permitirá añadir una canción.
         self.listas_contenedor_de_song.append(cancion)      ## usando una funcion append se agregaran las nuevas caniones.
 
-    def Eliminar_cancion(self,cancion):                     #Un método que permitirá eliminar una canción.
-        self.listas_contenedor_de_song.remove(cancion)       #eliminar una la cancion ,atraves de la funcion remove
+    def Eliminar_cancion(self,index):                     #Un método que permitirá eliminar una canción.
+        self.listas_contenedor_de_song.remove(self.listas_contenedor_de_song[index])       #eliminar una la cancion ,atraves de la funcion remove
 
     def Mostrar_Todas_las_canciones(self):                 # Un método que permitirá mostrar todas las canciones.
         for x in range(len(self.listas_contenedor_de_song)):
@@ -77,32 +77,16 @@ class Playlist:
 # My_musica = Playlist('XXLL',canciones)
 canciones = ['musica pop','musica clasica','musica jazz']
 My_musica = Playlist('XXLL',canciones)
-def menu():
-    print('Bienvenido. Para manejar tu Playlist tienes los suiguintes opciones')
-    # print('A.mostrar todas las canciones.')
-    # print('B.Eliminar una canción.')
-    print('C.añadir una canción')
-
-    # print('1.Reproducir una canción(0)')
-    # print('2.reproducir una canción aleatoria ')
-    # print('1.Seleccionar una canción a reproducion(1)')
-    # print('4.pausar una canción')
-    # print('5.Detener la reproducción')
-    # print('6.siguiente canción')
-    # print('7retroceder a la canción anterior')
-    # print('8.estado de la playlist')
-    # print('9.Ver la canción que se está reproduciendo')
-def menum():
-    print("Bienvenido <(II)>")
-    print("1.reproducir")
-    print(" 'p' para pausar play list")
 def Editar(opcion):
     if opcion == 'a':
        My_musica.Mostrar_Todas_las_canciones() 
+
     if opcion == 'b':
-        index = int(input(f'Ingrese el numero de la cancion a eliminar(0-{len(My_musica.listas_contenedor_de_song)-1}): '))
-        My_musica.Eliminar_cancion(index)
-        print('Canción Eliminada de tu Playlist')
+        index = int(input(f'Ingrese el numero de la cancion a eliminar(0-{len(My_musica.listas_contenedor_de_song)-1})(-1)Para Cancelar: '))
+        if index > -1:
+            My_musica.Eliminar_cancion(index)
+            print('Canción Eliminada de tu Playlist')
+        
     if opcion == 'c':
         nombre = input('Ingrese el nombre de la cancion: ')
         My_musica.Añadir_cancion(nombre)
@@ -186,13 +170,14 @@ def menu_de_reproduccion():
     print("Seleccionar Song(S)|Estado(E) | Veer Song actual(V)\n")
 end = False 
 while not end:
-    print('Bienvenido. Para manejar tu Playlist tienes los siguintes opciones')
-    print('a).mostrar todas las canciones.')
-    print('b).Eliminar una canción.')
-    print('c).añadir una canción')
-    print('d).Reproducir Playlist')
-    print('e).Reproducir Playlist Aleatoria')
-    print('f).Salir')
+    print('- '*40)
+    print('--------BIENVENIDO. Para manejar tu Playlist tienes los siguiEntes opciones-----')
+    print('\ta).mostrar todas las canciones.')
+    print('\tb).Eliminar una canción.')
+    print('\tc).añadir una canción')
+    print('\td).Reproducir Playlist')
+    print('\te).Reproducir Playlist Aleatoria')
+    print('\tf).Salir')
     r = input('Ingrese una opcion:').lower()
     if r == 'a':
         Editar('a')
@@ -218,4 +203,5 @@ while not end:
             if r == 'no':
                 break
     if r == 'f':
+        del My_musica
         break
