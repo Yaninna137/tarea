@@ -102,20 +102,19 @@ def comando_r(objeto):
             if Modo_aleatorio == None:
                 objeto.listas_contenedor_de_song[objeto.indice_cancion]
                 time.sleep(1)
-                print(i)
                 i += 1
                 j += 1
+
             elif Modo_aleatorio == True:    
                 if c_id != objeto.indice_cancion:
                     objeto.listas_contenedor_de_song[objeto.indice_cancion]
                     time.sleep(1)
-                    print(i)
                     i += 1
                     j += 1
                 else:
                     j += TiempoC             # tiempo por cancion , cuando este en aleatoria la musica que se esta en R y se colo el modo Aletorio, este indice no se contara y se suma , para evitar que salga
                     continue
-
+            print('Reproducciendo...')
         if keyboard.is_pressed('p'):                        #comando para pausar
             objeto.Pausar_cancion()
 
@@ -144,24 +143,25 @@ def comando_r(objeto):
         if keyboard.is_pressed('V') or keyboard.is_pressed('v'):            # comado para ver la cancion actual
             print(objeto.Ver_cancion_reproduciendo())
         if keyboard.is_pressed('A'):
-            r = input('Estas seguro de colocar la reproduccion aletoria? (si)(no): ')
+            r = input('Estas seguro de colocar la Reproduccion Aletoria? (si)(no): ')
             if r ==  'si':
                 i = 0
                 j += j%15           
                 x =objeto.Reproducir_una_cancion_aleatoria(objeto.indice_cancion)
                 c_id = x
                 Modo_aleatorio = True
+                print('Cambio Realizado')
             else:
                 continue
         if i == 15:
             i = 0
-            print('musica anterior: {}'.format(objeto.listas_contenedor_de_song[objeto.indice_cancion]),objeto.indice_cancion)
+            
             if objeto.indice_cancion < (len(objeto.listas_contenedor_de_song)-1 ):
                 objeto.indice_cancion += 1
+                print('Siguiente musica')
             if j == tiempo_total_c:
                 objeto.indice_cancion = 0
-    print(i,'--->', j)
-
+                print('Se reprodujieron Todas sus Playlist')
 def menu_de_reproduccion():
     print('---------------------------MENU DE COMNADO(TECLAS)--------------------------')
     print('Reproducccion ALEATORIA(A)|Pausar(P)|Detener(D)|Siguiente(N)|Retroceder(R)|')
