@@ -29,12 +29,12 @@ class Playlist:
     def Pausar_cancion(self):
         self.Estado = 'Pausado'
         print('La cancion se encuentra pausada')
-        m = input('Enter para dejar la pausa')
+        m = input(f'Enter para dejar el estado:{self.Estado} ')
         self.Estado = 'Reproduccion'
     def Detener_la_reproduccion(self):
         self.Estado = 'Detenido'
         print('La cancion se encuentra Detenida')
-        m = input('Cancion Detenida (enter para volver a reproduccir cancion) ')
+        m = input(f'Estado:{self.EStado} (Enter para volver a reproducir la canción)')
         self.Estado = 'Reproduccion'
 
     def Pasar_sig_cancion(self,ind_actual):
@@ -42,7 +42,6 @@ class Playlist:
             self.indice_cancion += 1
         else:
             self.indice_cancion = 0
-
         print('Siguiente...')
     def Retroceder_cancion_anterior(self,id_actual):
         if id_actual < (len(self.listas_contenedor_de_song)-1):
@@ -96,7 +95,7 @@ def comando_r(objeto):
     TiempoC = 15
     while i < TiempoC and j <tiempo_total_c:
         c_id = Modo_aleatorio = None
-        if keyboard.is_pressed('p'):                         # Al precionar la tecla p se pausara la playlist
+        if keyboard.is_pressed('p') or keyboard.is_pressed('p'):                         # Al precionar la tecla p se pausara la playlist
             objeto.Pausar_cancion()
         if objeto.Estado == 'Reproduccion':
             if Modo_aleatorio == None:
@@ -115,34 +114,34 @@ def comando_r(objeto):
                     j += TiempoC             # tiempo por cancion , cuando este en aleatoria la musica que se esta en R y se colo el modo Aletorio, este indice no se contara y se suma , para evitar que salga
                     continue
             print('Reproducciendo...')
-        if keyboard.is_pressed('p'):                        #comando para pausar
+        if keyboard.is_pressed('P') or keyboard.is_pressed('p'):                        #comando para pausar
             objeto.Pausar_cancion()
 
-        if keyboard.is_pressed('S'):                        # comando para seleccionar la cancion ah reproducir
+        if keyboard.is_pressed('S') or keyboard.is_pressed('s'):                        # comando para seleccionar la cancion ah reproducir
            ingrese = int(input(f'Ingrese el numero de la cancion(0-{len(objeto.listas_contenedor_de_song)-1}): '))
            objeto.Seleccionar_una_cancion_a_reproducir(ingrese)
            i = 0
            j = 15*ingrese
 
-        if keyboard.is_pressed('D'):  
+        if keyboard.is_pressed('D') or keyboard.is_pressed('d'):  
            objeto.Detener_la_reproduccion()                     # comando para detener la reproducir
            i = 0
-        if keyboard.is_pressed('N'):
+        if keyboard.is_pressed('N') or keyboard.is_pressed('n'):
             el_resto_song_actual = j % 15 #objeto.indice_cancion
             objeto.Pasar_sig_cancion(objeto.indice_cancion)
             i = 0
             j += el_resto_song_actual          # le sumamos lo que restaba del tiempo de la cancion anterior , para que la siguinete inicie con el tiempo 0 y que en la lista de tiempode demora total , se tenga el numero mazimo que se tiene.
-        if keyboard.is_pressed('R'):           # comando para retroceder la cancion
+        if keyboard.is_pressed('R') or keyboard.is_pressed('r'):           # comando para retroceder la cancion
             el_resto_song_actual = j % 15 #objeto.indice_cancion
             objeto.Retroceder_cancion_anterior(objeto.indice_cancion)
             i = 0
             j = (j + el_resto_song_actual)  -15        # se suma lo que llebaba y se resta los 15 , para que de el efeto de retornar , desde el punto de partica pero esta vez en 0
 
-        if keyboard.is_pressed('9'):           # comando para ver el estado de la playlist. #agregar en los demas comando de pausa y detener
+        if keyboard.is_pressed('E') or keyboard.is_pressed('e'):           # comando para ver el estado de la playlist. #agregar en los demas comando de pausa y detener
            print( objeto.Ver_estado_Playlist())
         if keyboard.is_pressed('V') or keyboard.is_pressed('v'):            # comado para ver la cancion actual
             print(objeto.Ver_cancion_reproduciendo())
-        if keyboard.is_pressed('A'):
+        if keyboard.is_pressed('A') or keyboard.is_pressed('a'):
             r = input('Estas seguro de colocar la Reproduccion Aletoria? (si)(no): ')
             if r ==  'si':
                 i = 0
@@ -165,12 +164,12 @@ def comando_r(objeto):
 def menu_de_reproduccion():
     print('---------------------------MENU DE COMNADO(TECLAS)--------------------------')
     print('Reproducccion ALEATORIA(A)|Pausar(P)|Detener(D)|Siguiente(N)|Retroceder(R)|')
-    print("Seleccionar Song(S)|Estado(E) | Veer Song actual(V)\n")
+    print("Seleccionar Song(S)|Ver Estado(E) | Veer Song actual(V)\n")
 end = False 
 while not end:
     print('- '*40)
     print('--------BIENVENIDO. Para manejar tu Playlist tienes los siguiEntes opciones-----')
-    print('\ta).mostrar todas las canciones.')
+    print('\ta).Mostrar todas las canciones.')
     print('\tb).Eliminar una canción.')
     print('\tc).añadir una canción')
     print('\td).Reproducir Playlist')
