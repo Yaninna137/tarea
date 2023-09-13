@@ -26,14 +26,14 @@ class Estudiante(Personas):
         super().__init__(nombre, apellido, fecha_de_nacimiento)
         self.matricula = matricula
         self.carrera = carrera
-        self.semetre = semestre 
+        self.semestre = semestre 
     def Estudiar(self,materia,hrs_estudio):
         print('El estudiante "{} {}" ah estudiado {} por {} hrs{}'.format(self.nombre,self.apellido,materia,hrs_estudio,('Lo cual es grandiaso , pero a la proxima procure tomar descansos entre medio :)'if hrs_estudio >=7 else 'Un gran Logro')))
     def presentarse(self):
         print(f''''
               Hola! Me presento :D
               Mi nombre es {self.nombre} {self.apellido}.Y soy un estudiante.
-              Estoy en la carrera {self.carrera} y voy en el semestre {self.semetre} de mi carrerra
+              Estoy en la carrera {self.carrera} y voy en el semestre {self.semestre} de mi carrerra
               .Un dato extra es que naci el {self.f_n} y tengo la matricula {self.matricula}.
               ''')
 '''
@@ -169,35 +169,164 @@ Incluya comentarios y docstrings que expliquen su código adecuadamente.
 '''
 class Almamiento:
     def __init__(self):
-        self.Personas = 0           # Contar cuantas personas hay
+    # ALMACENAMIENTO DE OBJETOS
+        self.Personas = 0           # Tener un numero Total de los objetos creados en Personas
         self.A_Est = []             # Lista de alamacenamineto de Estudiantes
         self.A_Prof = []            # Lista de alamacenamineto de Profesores
         self.A_Asig= []             # Lista de alamacenamineto de Asiganturas
         self.A_Grupos = []          # Lista de alamacenamineto de Grupos
         self.A_ProgA = []           # Lista de alamacenamineto de ProgramaAcademico:
+    # ELIMINAR OBJETO
+    def eliminar_objeto(self,nombre_del_objeto,objeto_a_eliminar):    #Eliminar objeto de las lista de almacenamiento # -1 de objetos vigentes en personas
+        if nombre_del_objeto == 'estudiante':
+            self.A_Est.remove(objeto_a_eliminar)
+            self.Personas -= 1
+        if nombre_del_objeto == 'profesor':
+            self.A_Prof.remove(objeto_a_eliminar)  
+            self.Personas -= 1
+        if nombre_del_objeto == 'grupos':
+            self.A_Grupos.remove(objeto_a_eliminar)
+            self.Personas -= 1
+        if nombre_del_objeto == 'asignatura':
+            self.A_Asig.remove(objeto_a_eliminar)
+            self.Personas -= 1
+        if nombre_del_objeto == 'ProA':
+            self.A_ProgA.remove(objeto_a_eliminar)
+            self.Personas -= 1
+    # AGREGAR OBJETO
+    def agregar_objeto(self,nombre_del_objeto,objeto_a_agregar):    #Agregar objeto de las lista de almacenamiento # +1 de objetos vigentes en personas
+        if nombre_del_objeto == 'estudiante':
+            self.A_Est.append(objeto_a_agregar)
+            self.Personas += 1
+        if nombre_del_objeto == 'profesor':
+            self.A_Prof.append(objeto_a_agregar)  
+            self.Personas += 1
+        if nombre_del_objeto == 'grupos':
+            self.A_Grupos.append(objeto_a_agregar)
+            self.Personas += 1
+        if nombre_del_objeto == 'asignatura':
+            self.A_Asig.append(objeto_a_agregar)
+            self.Personas += 1
+        if nombre_del_objeto == 'ProA':
+            self.A_ProgA.append(objeto_a_agregar)
+            self.Personas += 1
+    # IMRIMIR OBJETOS
+    def imprimir_lista_de_objetos(self,nombre_del_objeto):       #imprimir el objeto por consola
+        if nombre_del_objeto == 'personas':
+            print(f'Hay {self.Personas} registros en este sistema')
+        if nombre_del_objeto == 'estudiante':
+            print('----        REGISTRO:ESTUDIANTES            Total de registro[{}N°]----------------'.format(len(self.A_Est)))
+            print('IDE  |NOMBRE & APELLIDO')
+            for i in range(len(self.A_Est)):
+                print(i +1,f'  | {self.A_Est[i].nombre} {self.A_Est[i].apellido} |CARRERA: {self.A_Est[i].carrera}')
+        if nombre_del_objeto == 'profesor':
+            print('            REGISTRO:PROFESOR                          [{}]'.format(len(self.A_Prof)))
+            print('IDE  |NOMBRE & APELLIDO')
+            for i in range(len(self.A_Prof)):
+                print(i +1,f'  | {self.A_Prof[i].nombre} {self.A_Prof[i].apellido} |DEPARTAMENTO: {self.A_Prof[i].departamento}')
+        if nombre_del_objeto == 'grupos':
+            print('            REGISTRO:GRUPOS                            [{}] '.format(len(self.A_Grupos)))
+            for i in range(len(self.A_Grupos)):
+                print(F'{self.A_Grupos[i].num_grupo} N°|Asignatura:{self.A_Grupos[i].asignatura.nombre}/Profesor: {self.A_Grupos[i].profesor.nombre} {self.A_Grupos[i].profesor.apellido} /Total de Estudiantes: {len(self.A_Grupos[i].estudiante)}')
+        if nombre_del_objeto == 'asignatura':
+            print('            REGISTRO:ASIGNATURA                        [{}]'.format(len(self.A_Asig)))
+            for i in range(len(self.A_Asig)):
+                print(i +1,f'  |NOMBRE: {self.A_Asig[i].nombre} CODIGO:{self.A_Asig[i].codigo} |DEPARTAMENTO: {self.A_Asigf[i].credito}')
+        if nombre_del_objeto == 'ProA':
+            print('            REGISTRO:ProgramaAcademico                 [{}]'.format(len(self.A_ProgA)))
+            for i in range(len(self.self.A_ProgA)):
+                print(i +1,f'  |NOMBRE{self.A_Asig[i].nombre}/CODIGO:{self.A_Asig[i].codigos}/ Total de Grupos:{len(self.A_Asigf[i].Gruposo)}')
+    #VERIFICACIONES antes de eliminar:
     def buscar_estudiante_GRUP(self,Grupo,Estudiante):
         for estud in Grupo.estudiante:
             if estud.nombre == Estudiante.nombre and estud.apellido == Estudiante.apellido and estud.f_n == Estudiante.f_n : # Verificar cada estudiante del grupo con el estudiante que se esta buscando.
-                return True # En caso de cumplir retorna True
-        return False # En caso de no encontrar dicho estudiante retorna falso
-    
+                return True               # En caso de cumplir retorna True
+        return False                 # En caso de no encontrar dicho estudiante retorna falso
+    def buscar_grupo_PROGA(self,Prog_A,Grupo):
+        for grupo in Prog_A:
+            if grupo.num_grupo == Grupo.num_grupo and grupo.profesor == Grupo.profesor:  # Verificar si el grupo esta dentro del programaAcademico.
+                return True              # En caso de cumplir retorna True
+        return False                 # En caso de no encontrar dicho estudiante retorna falso
+
+    def buscar_objeto(self,nombre_del_objeto,objeto_a_buscar):    #Agregar objeto de las lista de almacenamiento # +1 de objetos vigentes en personas
+        pass
+    #VERIFICACIONES antes de agregar
     def verificar_limites_de_agregar_una_GRUP(self,Grupo_que_se_quiere_agregar):
         for grup_indv in self.A_Grupos:
             if grup_indv.num_grupo == Grupo_que_se_quiere_agregar.num_grupo:
-                return False # retornara falso , porque el numero que se ingreso en el nuevo grupo ya existe, dentro de los grupos agregados.
-        return True # El numero no existe.Por ende es valido.
-
-        # para poder buscar al grupo se podria crear una condicional de limites de cuantos grupos se agregaran , como los numeros disponibles 
-
-    
+                return False             # retornara falso , porque el numero que se ingreso en el nuevo grupo ya existe, dentro de los grupos agregados.
+        return True                 # El numero no existe.Por ende es valido.
+            
 # Funciones para porder implementar el "interfaz textual que permita a un usuario interactuar con el sistema" llamando funciones.
-def Sistema_Estudiantes():
-    pass
-def Sistema_Profesor():
-    pass
-def Sistema_Asigantura():
-    pass
-def Sistema_Grupo():
-    pass
-def Sistema_ProgramaAcademico():
-    pass
+Almamiento = Almamiento()
+def Registro(Tipo_de_persona):
+    global Almamiento
+    if Tipo_de_persona == 'E':
+        n   = input('Ingrese el nombre:')
+        a   = input('Ingrese el apellido:')
+        f_n = input('Ingrese la fecha de nacimento:')
+        m   = input('Ingrese la matricula:')
+        c   = input('Ingrese la carrera:')
+        s   = input('Ingrese el semestre:')
+        Estudiante_n = Estudiante(n,a,f_n,m,c,s)
+        Almamiento.agregar_objeto('estudiante',Estudiante_n)
+    
+    if Tipo_de_persona == 'P':
+        # nombre, apellido, fecha_de_nacimiento,numero_empleado,departamento)
+        n   = input('Ingrese el nombre:')
+        a   = input('Ingrese el apellido:')
+        f_n = input('Ingrese la fecha de nacimento:')
+        n_e = input('Ingrese la Numero de emples que ha tenido:')
+        d   = input('Ingrese la departamento:')
+        Profesor_n = Profesor(n,a,f_n,n_e,d)
+        Almamiento.agregar_objeto('profesor',Profesor_n)
+
+    if Tipo_de_persona == 'A':
+        # nombre, codigo, creditos
+        n   = input('Ingrese el nombre:')
+        c   = input('Ingrese el codigo:')
+        cr  = input('Ingrese los creditos:')   
+        Asigantura_n = Asignatura(n,c,cr)
+        Almamiento.agregar_objeto('asignatura',Asigantura_n)
+    if Tipo_de_persona == 'G':
+        pass
+        # número_grupo, Asignatura, Profesor , Estudiante
+    
+    if Tipo_de_persona == 'PA':
+        pass
+        # nombre,codigos,Grupos
+off = False
+
+while not off:
+    print('-------BIENVENIDO AL "Sistema de Gestión Universitaria"---------')
+    print('MENU:')
+    print('1.Agregar un nuevo registro al sistema')
+    print('2.Eliminar un registro del sistema')
+    print('3.Gestionar registro')
+    print('9.LISTA DE REGISTRO.')
+    print('0.Salir')
+    opcion = input('Ingrese el num de la opcion ah ejecutar:')
+    if opcion == '1':
+        print('-'*30,'\n¿Que tipo de registro?     NOTA: Escriba la letra')
+        print('¬ Estudiante(E)')
+        print('¬ Profesor(P)')
+        print('¬ Asignatura(A)')
+        print('¬ Grupo(G)')
+        print('¬ ProgrAcademico(PA)')
+        t_P = input('Ingrese la Letra: ').upper()
+        Registro(t_P)
+    if opcion == '9':
+        print('-'*30,'\n¿Que tipo de registro ? Deseas ver')
+        print('¬ Estudiante')
+        print('¬ Profesor')
+        print('¬ Asignatura')
+        print('¬ Grupo')
+        print('¬ ProgrAcademico')
+        t_P = input('Ingrese el nombre: ').lower()
+        Almamiento.imprimir_lista_de_objetos(t_P)
+        
+    if opcion == '0':  #Salir del sistema
+        off = True
+
+
+
