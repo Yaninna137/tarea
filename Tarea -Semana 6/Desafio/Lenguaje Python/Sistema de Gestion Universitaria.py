@@ -328,5 +328,5 @@ while not off:
     if opcion == '0':  #Salir del sistema
         off = True
 
-
+# Colocar un print , con 3 comillas , para imprimir las opciones.
 
